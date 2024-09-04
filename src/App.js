@@ -1,73 +1,30 @@
-const pizzaData = [
-  {
-    name: "Focaccia",
-    ingredients: "Bread with italian olive oil and rosemary",
-    price: 6,
-    photoName: "pizzas/focaccia.jpg",
-    soldOut: false,
-  },
-  {
-    name: "Pizza Margherita",
-    ingredients: "Tomato and mozarella",
-    price: 10,
-    photoName: "pizzas/margherita.jpg",
-    soldOut: false,
-  },
-  {
-    name: "Pizza Spinaci",
-    ingredients: "Tomato, mozarella, spinach, and ricotta cheese",
-    price: 12,
-    photoName: "pizzas/spinaci.jpg",
-    soldOut: false,
-  },
-  {
-    name: "Pizza Funghi",
-    ingredients: "Tomato, mozarella, mushrooms, and onion",
-    price: 12,
-    photoName: "pizzas/funghi.jpg",
-    soldOut: false,
-  },
-  {
-    name: "Pizza Salamino",
-    ingredients: "Tomato, mozarella, and pepperoni",
-    price: 15,
-    photoName: "pizzas/salamino.jpg",
-    soldOut: true,
-  },
-  {
-    name: "Pizza Prosciutto",
-    ingredients: "Tomato, mozarella, ham, aragula, and burrata cheese",
-    price: 18,
-    photoName: "pizzas/prosciutto.jpg",
-    soldOut: false,
-  },
-];
-const numbers = [1, 2, 3, 4, 5];
+import { useState } from "react";
+import Steps from "./components/steps";
+import Description from "./components/description";
+import Button from "./components/Button";
 function App() {
+  const [curId, SetCurId] = useState(1);
+  console.log(curId);
+  const data = [
+    { id: 1, title: "Learn React" },
+    { id: 2, title: "Apply jobs" },
+    { id: 3, title: "Invest new money" },
+  ];
+  const plusIdHandler = (curId) => {
+    SetCurId((curId) => (curId >= 3 ? 1 : curId + 1));
+  };
+  const minusIdHandler = (curId) => {
+    SetCurId((curId) => (curId >= 3 ? curId - 1 : curId < 2 ? 1 : curId - 1));
+  };
   return (
-    <div className="flex flex-col items-center justify-center gap-[2rem] mt-16">
-      <h1>Hello React</h1>
-      <div className="flex items-center justify-center gap-x-4 gap-y-8 flex-wrap">
-        <Pizza pizzas={pizzaData} />
+    <div className="w-1/3  flex flex-col gap-y-8 rounded-md p-4 mx-auto mt-28 min-h-32 bg-sky-400">
+      <Steps data={data} curId={curId} SetCurId={SetCurId} />
+      <Description data={data} curId={curId} />
+      <div className="flex justify-between">
+        <Button text="Previous" onButtonClick={minusIdHandler} curId={curId} />
+        <Button text="Next" onButtonClick={plusIdHandler} curId={curId} />
       </div>
     </div>
-  );
-}
-function Pizza({ pizzas }) {
-  return (
-    <>
-      {pizzas.map((pizza) => (
-        <div className="">
-          <img
-            className="w-96 rounded-md inline-block mb-4"
-            src={`./${pizza.photoName}`}
-            alt={pizza.name}
-          />
-          <h2 className="text-red-500"> {pizza.name}</h2>
-          <p>{pizza.ingredients}</p>
-        </div>
-      ))}
-    </>
   );
 }
 
